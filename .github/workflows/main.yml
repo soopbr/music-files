@@ -1,5 +1,8 @@
 name: Generate jsDelivr Links
 
+permissions:
+  contents: write  #
+
 on:
   push:
     paths:
@@ -9,8 +12,6 @@ on:
 jobs:
   generate-links:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write  #
 
     steps:
       - name: Checkout repository
@@ -26,8 +27,6 @@ jobs:
           done
 
       - name: Commit and push links.txt
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  #
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
