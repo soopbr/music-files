@@ -1,7 +1,7 @@
 name: Generate jsDelivr Links
 
 permissions:
-  contents: write  #
+  contents: write
 
 on:
   push:
@@ -21,15 +21,6 @@ jobs:
         run: |
           echo "jsDelivr links generated on $(date)" > links.txt
           echo "" >> links.txt
-          for file in $(find . -name '*.mp3'); do
-            cleanpath=$(echo $file | sed 's|^\./||')
-            echo "https://cdn.jsdelivr.net/gh/${{ github.repository }}/${cleanpath}" >> links.txt
-          done
-
-      - name: Commit and push links.txt
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add links.txt
-          git commit -m "Update jsDelivr links [auto]" || echo "No changes to commit"
-          git push origin HEAD:${{ github.ref }}
+          find . -name '*.mp3' | while read -r file; do
+            cleanpath=$(echo "$file" | sed 's|^\./||')
+            echo "https://cdn.jsdelivr.net/gh/${{ github.repository }}/${cleanpath}" >> l
